@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Dental</title>
+    <script>
+  (function() {
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  })();
+</script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: '#3B41E3', primaryHover: '#2d33c5', dark: '#03040C', surfaceDark: '#0A0B14', surfaceLight: '#F2F4F7' },
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    borderRadius: { '4xl': '24px' }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased text-dark dark:text-[#f0f0f5] bg-white dark:bg-[#0f0f14]">
+
+    <!-- Navbar (Light Theme) -->
+    <nav class="relative z-20 max-w-7xl mx-auto px-6 lg:px-12 py-6 flex items-center justify-between text-dark dark:text-[#f0f0f5] dark:bg-[#0f0f14] rounded-b-3xl">
+        <a href="home.html" class="flex items-center space-x-2 font-bold text-2xl tracking-tight">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="text-primary">
+                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor"/>
+                <rect x="13" y="13" width="9" height="9" rx="2" fill="currentColor"/>
+                <rect x="2" y="13" width="9" height="9" rx="2" fill="currentColor"/>
+                <rect x="13" y="2" width="9" height="9" rx="2" fill="currentColor" fill-opacity="0.3"/>
+            </svg>
+            <span>Dental</span>
+        </a>
+        <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+            <a href="home.html" class="hover:text-primary transition">Home</a>
+            <a href="about.html" class="text-primary transition">About</a>
+            <a href="services.html" class="hover:text-primary transition">Services</a>
+            <a href="dentist.html" class="hover:text-primary transition">Dentists</a>
+            <a href="contact-us.html" class="hover:text-primary transition">Contact</a>
+        </div>
+        
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="p-2 ml-2 md:ml-4 shrink-0 rounded-full text-gray-800 dark:text-gray-200 hover:bg-gray-200 hover:bg-gray-100 dark:hover:bg-[#252535] transition">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="contact-us.html" class="hidden md:inline-flex bg-dark text-white dark:bg-white dark:text-[#0f0f14] px-6 py-3 text-sm font-semibold hover:bg-gray-800 transition shadow-md" style="border-radius:60px">
+            Book visit
+        </a>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24 text-center dark:bg-[#16161e]">
+        <span class="text-primary font-semibold text-xs tracking-[0.2em] uppercase mb-4 block">Our Story</span>
+        <h1 class="text-5xl md:text-7xl font-bold leading-[1.0] tracking-tight mb-8 dark:text-[#f0f0f5]">About Dental.</h1>
+        <p class="text-lg md:text-xl text-gray-500 dark:text-[#9090aa] max-w-3xl mx-auto mb-16">
+            We believe that a healthy smile is the foundation of overall well-being. Our dedicated team is committed to providing compassionate, top-tier dental care.
+        </p>
+        <div class="rounded-4xl overflow-hidden shadow-2xl h-[500px]">
+            <img src="https://framerusercontent.com/images/F8S4eX96Pul5uYP4Yc6E8GH3aM.jpg" alt="Clinic Interior" class="w-full h-full object-cover">
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div>
+                <h2 class="text-3xl font-bold mb-6 dark:text-[#f0f0f5]">Our Mission</h2>
+                <p class="text-gray-500 dark:text-[#9090aa] leading-relaxed text-lg">To deliver exceptional dental care that prioritizes patient comfort, health, and satisfaction. We strive to create a relaxing environment where every patient feels valued and understood, employing the latest techniques for minimal discomfort.</p>
+            </div>
+            <div>
+                <h2 class="text-3xl font-bold mb-6 dark:text-[#f0f0f5]">Our Vision</h2>
+                <p class="text-gray-500 dark:text-[#9090aa] leading-relaxed text-lg">To be recognized as the leading dental practice in the region, known for our innovative approach, compassionate care, and commitment to improving the smiles and lives of our community, one patient at a time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24 bg-surfaceLight dark:bg-[#16161e] rounded-[48px] my-12">
+        <div class="text-center mb-16">
+            <span class="text-primary font-semibold text-xs tracking-[0.2em] uppercase mb-4 block">Values</span>
+            <h2 class="text-4xl md:text-5xl font-bold dark:text-[#f0f0f5]">Our Core Values</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white dark:bg-[#0f0f14] p-10 rounded-4xl shadow-sm dark:shadow-none dark:border dark:border-[rgba(255,255,255,0.1)] text-center">
+                <div class="w-16 h-16 bg-primary/10 text-primary dark:text-[#7070ff] rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-4 dark:text-[#f0f0f5]">Compassion</h3>
+                <p class="text-gray-500 dark:text-[#9090aa] text-sm leading-relaxed">We treat every patient with kindness and empathy, ensuring a comfortable and anxiety-free experience throughout their visit.</p>
+            </div>
+            <div class="bg-white dark:bg-[#0f0f14] p-10 rounded-4xl shadow-sm dark:shadow-none dark:border dark:border-[rgba(255,255,255,0.1)] text-center">
+                <div class="w-16 h-16 bg-primary/10 text-primary dark:text-[#7070ff] rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-4 dark:text-[#f0f0f5]">Excellence</h3>
+                <p class="text-gray-500 dark:text-[#9090aa] text-sm leading-relaxed">We hold ourselves to the highest standards of clinical practice, continually updating our skills and technology to provide the best care.</p>
+            </div>
+            <div class="bg-white dark:bg-[#0f0f14] p-10 rounded-4xl shadow-sm dark:shadow-none dark:border dark:border-[rgba(255,255,255,0.1)] text-center">
+                <div class="w-16 h-16 bg-primary/10 text-primary dark:text-[#7070ff] rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-4 dark:text-[#f0f0f5]">Integrity</h3>
+                <p class="text-gray-500 dark:text-[#9090aa] text-sm leading-relaxed">We believe in transparent communication, honest recommendations, and ethical practices in every aspect of our patient care.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Area -->
+    <footer class="bg-dark text-white rounded-t-[48px] pt-24 pb-12 mt-24">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-1 md:col-span-2">
+                <a href="home.html" class="flex items-center space-x-2 font-bold text-2xl tracking-tight mb-8">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="text-white">
+                        <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor"/>
+                        <rect x="13" y="13" width="9" height="9" rx="2" fill="currentColor"/>
+                        <rect x="2" y="13" width="9" height="9" rx="2" fill="currentColor"/>
+                        <rect x="13" y="2" width="9" height="9" rx="2" fill="currentColor" fill-opacity="0.3"/>
+                    </svg>
+                    <span>Dental</span>
+                </a>
+                <p class="text-gray-400 max-w-sm mb-8">Dental is a modern practice dedicated to exceptional care in a welcoming environment.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-bold mb-6 tracking-wide text-sm text-gray-400 uppercase dark:text-[#f0f0f5]">Company</h4>
+                <ul class="space-y-4">
+                    <li><a href="home.html" class="text-gray-300 hover:text-white transition">Home</a></li>
+                    <li><a href="about.html" class="text-gray-300 hover:text-white transition">About Us</a></li>
+                    <li><a href="services.html" class="text-gray-300 hover:text-white transition">Services</a></li>
+                    <li><a href="dentist.html" class="text-gray-300 hover:text-white transition">Dentists</a></li>
+                    <li><a href="contact-us.html" class="text-gray-300 hover:text-white transition">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-bold mb-6 tracking-wide text-sm text-gray-400 uppercase dark:text-[#f0f0f5]">Contact</h4>
+                <ul class="space-y-4">
+                    <li class="flex flex-col">
+                        <span class="text-xs text-gray-500 dark:text-[#9090aa] mb-1">Email</span>
+                        <a href="mailto:hello@dental.com" class="text-gray-300 hover:text-white transition">hello@dental.com</a>
+                    </li>
+                    <li class="flex flex-col">
+                        <span class="text-xs text-gray-500 dark:text-[#9090aa] mb-1">Phone</span>
+                        <a href="tel:5033708787" class="text-gray-300 hover:text-white transition">(503) 370-8787</a>
+                    </li>
+                    <li class="flex flex-col">
+                        <span class="text-xs text-gray-500 dark:text-[#9090aa] mb-1">Address</span>
+                        <span class="text-gray-300">123 Dental Way, Salem, OR 97301</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-[#9090aa]">
+            <p>&copy; 2026 Dental. All rights reserved.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggleBtn = document.querySelectorAll('#theme-toggle');
+        themeToggleBtn.forEach(btn => {
+            const darkIcon = btn.querySelector('#theme-toggle-dark-icon');
+            const lightIcon = btn.querySelector('#theme-toggle-light-icon');
+
+            if (localStorage.getItem('theme') === 'dark') {
+                lightIcon.classList.remove('hidden');
+            } else {
+                darkIcon.classList.remove('hidden');
+            }
+
+            btn.addEventListener('click', function() {
+                darkIcon.classList.toggle('hidden');
+                lightIcon.classList.toggle('hidden');
+                
+                if (localStorage.getItem('theme') === 'dark') {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
