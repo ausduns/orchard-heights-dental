@@ -428,6 +428,16 @@ html.dark #theme-toggle {
   html.dark [style*="opacity: 0."] {
     opacity: 1 !important;
   }
+
+  /* Footer social cards — token-31c5f73c used as dark BG, overridden to #F0EFFF in dark mode; restore it */
+  html.dark footer a[style*="--token-31c5f73c-6f68-4d23-870d-1386964c8868"] {
+    background-color: #16161F !important;
+    border-color: #2A2A38 !important;
+  }
+  html.dark footer div[style*="--token-31c5f73c-6f68-4d23-870d-1386964c8868"] {
+    background-color: #16161F !important;
+    border-color: #2A2A38 !important;
+  }
 </style>
 
 <!-- ===== THEME TOGGLE ===== -->
