@@ -93,11 +93,10 @@
   </style>
 <style>
 /* =========================
-   Dark mode (system + manual)
-   Token-based for Framer
+   Dark mode — manual toggle only
+   Light is default. Dark only on html.dark
    ========================= */
 
-/* Manual override: when html.dark is present, force dark tokens regardless of OS */
 html.dark {
   color-scheme: dark;
 }
@@ -105,44 +104,17 @@ html.dark {
 html.dark :root,
 html.dark body,
 html.dark {
-  --token-d253d752-8bed-4cd5-9acc-17a570f2985a: #0D0D14; /* page bg */
-  --token-4cc2a019-273b-4c12-ad15-cec2b68c0578: #16161F; /* surface */
-  --token-07e322cc-a6fb-4efe-94f9-2b52a3205099: #6B6EF0; /* accent */
-  --token-31c5f73c-6f68-4d23-870d-1386964c8868: #F0EFFF; /* primary text */
+  --token-d253d752-8bed-4cd5-9acc-17a570f2985a: #0D0D14;
+  --token-4cc2a019-273b-4c12-ad15-cec2b68c0578: #16161F;
+  --token-07e322cc-a6fb-4efe-94f9-2b52a3205099: #6B6EF0;
+  --token-31c5f73c-6f68-4d23-870d-1386964c8868: #F0EFFF;
 }
 
-/* System default: only applies when there is NO manual override */
-@media (prefers-color-scheme: dark) {
-  html:not(.dark) {
-    color-scheme: dark;
-  }
-
-  html:not(.dark) :root,
-  html:not(.dark) body,
-  html:not(.dark) {
-    --token-d253d752-8bed-4cd5-9acc-17a570f2985a: #0D0D14; /* page bg */
-    --token-4cc2a019-273b-4c12-ad15-cec2b68c0578: #16161F; /* surface */
-    --token-07e322cc-a6fb-4efe-94f9-2b52a3205099: #6B6EF0; /* accent */
-    --token-31c5f73c-6f68-4d23-870d-1386964c8868: #F0EFFF; /* primary text */
-  }
-}
-
-/* Fallbacks for manual dark */
 html.dark body {
-  background-color: #0D0D14;
-  color: #9B9BAD;
+  background-color: #0D0D14 !important;
+  color: #9B9BAD !important;
 }
 
-/* Fallbacks for system dark when not manually overridden */
-@media (prefers-color-scheme: dark) {
-  html:not(.dark) body {
-    background-color: #0D0D14;
-    color: #9B9BAD;
-  }
-}
-
-/* Use !important to beat inline styles where necessary; keep selectors minimal */
-html.dark body,
 html.dark p,
 html.dark li,
 html.dark .framer-text {
@@ -154,9 +126,7 @@ html.dark h4, html.dark h5, html.dark h6 {
   color: #F0EFFF !important;
 }
 
-html.dark a {
-  color: #6B6EF0 !important;
-}
+html.dark a { color: #6B6EF0 !important; }
 
 html.dark input, html.dark textarea, html.dark select {
   background-color: rgba(255, 255, 255, 0.05) !important;
@@ -169,73 +139,257 @@ html.dark textarea::placeholder {
   color: #9B9BAD !important;
 }
 
-html.dark hr {
-  border-color: #2A2A38 !important;
-}
+html.dark hr { border-color: #2A2A38 !important; }
 
 html.dark footer {
   background-color: #0a0a0f !important;
   color: #FFFFFF !important;
 }
 
-html.dark footer a {
-  color: #FFFFFF !important;
-}
+html.dark footer a { color: #FFFFFF !important; }
 
-/* Repeat fallbacks for system dark when not manually overridden */
-@media (prefers-color-scheme: dark) {
-  html:not(.dark) p,
-  html:not(.dark) li,
-  html:not(.dark) .framer-text {
-    color: #9B9BAD !important;
-  }
-
-  html:not(.dark) h1,
-  html:not(.dark) h2,
-  html:not(.dark) h3,
-  html:not(.dark) h4,
-  html:not(.dark) h5,
-  html:not(.dark) h6 {
-    color: #F0EFFF !important;
-  }
-
-  html:not(.dark) a {
-    color: #6B6EF0 !important;
-  }
-
-  html:not(.dark) input,
-  html:not(.dark) textarea,
-  html:not(.dark) select {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    color: #F0EFFF !important;
-    border-color: #2A2A38 !important;
-  }
-
-  html:not(.dark) input::placeholder,
-  html:not(.dark) textarea::placeholder {
-    color: #9B9BAD !important;
-  }
-
-  html:not(.dark) hr {
-    border-color: #2A2A38 !important;
-  }
-
-  html:not(.dark) footer {
-    background-color: #0a0a0f !important;
-    color: #FFFFFF !important;
-  }
-
-  html:not(.dark) footer a {
-    color: #FFFFFF !important;
-  }
-}
-
-/* Toggle button icon sync via CSS */
+/* Icon sync */
 html.dark .icon-moon { display: none !important; }
-html.dark .icon-sun { display: flex !important; }
-@media (prefers-color-scheme: dark) {
-  html:not(.dark) .icon-moon { display: none !important; }
-  html:not(.dark) .icon-sun { display: flex !important; }
+html.dark .icon-sun  { display: flex !important; }
+
+/* =============================================
+   ROUND 3 DARK MODE POLISH
+   ============================================= */
+
+/* --- Body text contrast boost --- */
+html.dark p,
+html.dark li,
+html.dark .framer-text,
+html.dark span:not([class*="accent"]):not([class*="label"]) {
+  color: #B8B8C8 !important;
+}
+
+/* --- Headings stay bright --- */
+html.dark h1, html.dark h2, html.dark h3,
+html.dark h4, html.dark h5, html.dark h6 {
+  color: #EEEEFF !important;
+}
+
+/* --- White image container backgrounds --- */
+html.dark [class*="card"] [class*="image"],
+html.dark [class*="team"] [class*="image"],
+html.dark [class*="dentist"] [class*="image"],
+html.dark [class*="doctor"] [class*="image"] {
+  background-color: #1A1A26 !important;
+  border: 1px solid #2A2A38 !important;
+}
+
+html.dark div[style*="background: rgb(255, 255, 255)"],
+html.dark div[style*="background: white"],
+html.dark div[style*="background-color: white"],
+html.dark div[style*="background-color: rgb(255, 255, 255)"],
+html.dark div[style*="background:#fff"],
+html.dark div[style*="background: #fff"] {
+  background-color: #1A1A26 !important;
+  border: 1px solid #2A2A38 !important;
+}
+
+/* --- Footer social icon boxes --- */
+html.dark footer div[style*="background"],
+html.dark footer [class*="social"],
+html.dark footer [class*="link-box"],
+html.dark footer [class*="icon-box"] {
+  background-color: #16161F !important;
+  border: 1px solid #2A2A38 !important;
+}
+
+html.dark footer div[style*="background: rgb(255"],
+html.dark footer div[style*="background: white"],
+html.dark footer div[style*="background-color: rgb(255"],
+html.dark footer div[style*="background: #f"],
+html.dark footer div[style*="background-color: #f"] {
+  background-color: #16161F !important;
+  border: 1px solid #2A2A38 !important;
+}
+
+/* --- CTA purple block text --- */
+html.dark [class*="cta"] p,
+html.dark [class*="cta"] span,
+html.dark [class*="cta"] h1,
+html.dark [class*="cta"] h2,
+html.dark [class*="cta"] h3,
+html.dark [class*="book"] p,
+html.dark [class*="book"] span,
+html.dark [class*="book"] h1,
+html.dark [class*="book"] h2,
+html.dark div[style*="background: rgb(102, 99, 233)"] p,
+html.dark div[style*="background: rgb(102, 99, 233)"] span,
+html.dark div[style*="background: rgb(102, 99, 233)"] h1,
+html.dark div[style*="background: rgb(102, 99, 233)"] h2,
+html.dark div[style*="background: rgb(102, 99, 233)"] h3 {
+  color: #FFFFFF !important;
+  font-weight: 500;
+}
+
+/* --- Sidebar / info cards --- */
+html.dark [class*="sidebar"],
+html.dark [class*="info-card"],
+html.dark [class*="job-info"],
+html.dark [class*="detail-card"] {
+  background-color: #16161F !important;
+  border: 1px solid #2A2A38 !important;
+  color: #B8B8C8 !important;
+}
+
+html.dark aside div[style*="background: rgb(255"],
+html.dark aside div[style*="background: white"],
+html.dark aside div[style*="background-color: white"] {
+  background-color: #16161F !important;
+  border: 1px solid #2A2A38 !important;
+}
+
+/* --- Accordion / FAQ --- */
+html.dark [class*="accordion"],
+html.dark [class*="faq"] {
+  background-color: #16161F !important;
+  border: 1px solid #2A2A38 !important;
+  color: #B8B8C8 !important;
+}
+
+html.dark [class*="accordion"] *,
+html.dark [class*="faq"] * {
+  color: #B8B8C8 !important;
+}
+
+html.dark [class*="accordion"][open],
+html.dark [class*="accordion"].open,
+html.dark [class*="accordion"].active {
+  background-color: #1E1E2E !important;
+}
+
+/* --- Tags / pills / badges --- */
+html.dark [class*="tag"],
+html.dark [class*="pill"],
+html.dark [class*="badge"],
+html.dark [class*="chip"] {
+  background-color: #1E1E2E !important;
+  border: 1px solid #3A3A52 !important;
+  color: #B8B8C8 !important;
+}
+
+/* --- Labels / numbered sections --- */
+html.dark [class*="label"],
+html.dark [class*="number"],
+html.dark [class*="index"],
+html.dark [class*="counter"] {
+  color: #6B6EF0 !important;
+  opacity: 1 !important;
+}
+
+/* --- Job listing rows --- */
+html.dark [class*="job"],
+html.dark [class*="listing"],
+html.dark [class*="position"] {
+  opacity: 1 !important;
+  color: #B8B8C8 !important;
+  border-color: #2A2A38 !important;
+}
+
+html.dark [class*="job"] *,
+html.dark [class*="listing"] *,
+html.dark [class*="position"] * {
+  opacity: 1 !important;
+}
+
+html.dark [class*="apply"],
+html.dark [class*="job"] a {
+  color: #6B6EF0 !important;
+  opacity: 1 !important;
+}
+
+/* --- Google Maps embed --- */
+html.dark iframe[src*="google.com/maps"],
+html.dark iframe[src*="maps.google"],
+html.dark [class*="map"] iframe,
+html.dark [class*="map"] {
+  filter: brightness(0.85) grayscale(0.2) !important;
+  border-radius: 12px;
+  border: 1px solid #2A2A38 !important;
+}
+
+/* --- Hero image brightness --- */
+html.dark [class*="hero"] img,
+html.dark [class*="banner"] img {
+  filter: brightness(0.78) !important;
+}
+
+/* --- Hero pill chips --- */
+html.dark [class*="hero"] [class*="tag"],
+html.dark [class*="hero"] [class*="chip"],
+html.dark [class*="hero"] [class*="pill"],
+html.dark [class*="hero"] [class*="badge"] {
+  background-color: rgba(22, 22, 31, 0.92) !important;
+  border: 1px solid #3A3A52 !important;
+  color: #E0E0F0 !important;
+}
+
+/* --- Pricing card --- */
+html.dark [class*="pricing"] [class*="button"],
+html.dark [class*="plan"] [class*="button"],
+html.dark [class*="price"] button {
+  background-color: #6B6EF0 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+
+html.dark [class*="pricing"] li,
+html.dark [class*="plan"] li,
+html.dark [class*="pricing"] p {
+  color: #B8B8C8 !important;
+  opacity: 1 !important;
+}
+
+/* --- Dentist / doctor portrait --- */
+html.dark [class*="doctor"] > img,
+html.dark [class*="portrait"] > img,
+html.dark [class*="dentist-profile"] img {
+  background-color: #1A1A26 !important;
+}
+
+/* --- Diagnoses / specialty cards --- */
+html.dark [class*="diagnos"],
+html.dark [class*="specialty"],
+html.dark [class*="expertise"] {
+  background-color: #16161F !important;
+  border: 1px solid #2A2A38 !important;
+  color: #B8B8C8 !important;
+}
+
+html.dark [class*="diagnos"] *,
+html.dark [class*="specialty"] *,
+html.dark [class*="expertise"] * {
+  color: #B8B8C8 !important;
+}
+
+/* --- Career details body copy --- */
+html.dark [class*="description"] p,
+html.dark [class*="description"] li,
+html.dark [class*="responsibilities"] li,
+html.dark [class*="qualifications"] li,
+html.dark [class*="job-body"] p,
+html.dark [class*="job-body"] li {
+  color: #C8C8DC !important;
+}
+
+html.dark [class*="description"] h2,
+html.dark [class*="description"] h3,
+html.dark [class*="responsibilities"] h2,
+html.dark [class*="responsibilities"] h3,
+html.dark [class*="qualifications"] h2,
+html.dark [class*="qualifications"] h3 {
+  color: #EEEEFF !important;
+}
+
+/* --- Toggle button in dark mode --- */
+html.dark #theme-toggle {
+  background: rgba(20,20,32,0.95) !important;
+  border-color: rgba(112,112,255,0.3) !important;
+  color: #F0EFFF !important;
 }
 </style>
 </head>
@@ -253,10 +407,10 @@ html.dark .icon-sun { display: flex !important; }
         <a href="./about2.html">About</a>
         <a href="./services2.html">Services</a>
         <a href="./dentists2.html">Dentists</a>
-        <a href="./pricing.html">Pricing</a>
+        <a href="./pricing2.html">Pricing</a>
         <button>All Pages <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></button>
       </nav>
-      <a href="./contact-us2.html" class="nav-cta">Schedule a Visit</a>
+            <a href="./contact-us2.html" class="nav-cta">Schedule a Visit</a>
     </div>
   </div>
 
@@ -375,8 +529,8 @@ html.dark .icon-sun { display: flex !important; }
           <li><a href="./about2.html">About Us</a></li>
           <li><a href="./services2.html">Services</a></li>
           <li><a href="./dentists2.html">Dentists</a></li>
-          <li><a href="./pricing.html">Pricing</a></li>
-          <li><a href="./careers.html">Careers</a></li>
+          <li><a href="./pricing2.html">Pricing</a></li>
+          <li><a href="./careers2.html">Careers</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -408,67 +562,83 @@ html.dark .icon-sun { display: flex !important; }
     </div>
   </footer>
 
-  <!-- ===== THEME TOGGLE (fixed, outside all layout) ===== -->
-  <div id="theme-toggle-fixed" style="position:fixed;top:22px;right:235px;z-index:2147483647;display:flex;align-items:center;pointer-events:auto;">
-    <button id="theme-toggle" aria-label="Toggle dark mode" style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(64,65,209,0.25);background:rgba(246,247,255,0.95);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#11081C;padding:0;flex-shrink:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 2px 8px rgba(0,0,0,0.12);transition:background 0.2s,border-color 0.2s,color 0.2s;">
-      <span class="icon-moon" style="display:flex;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
-      <span class="icon-sun" style="display:none;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
-    </button>
-  </div>
-  <script>
-  (function(){
-    var btn=document.getElementById('theme-toggle'),wrap=document.getElementById('theme-toggle-fixed'),root=document.documentElement;
-    var saved=localStorage.getItem('theme');
-    if(saved==='dark'||(!saved&&window.matchMedia('(prefers-color-scheme:dark)').matches))root.classList.add('dark');
-    function syncIcons(){
-      var dark=root.classList.contains('dark');
-      btn.querySelector('.icon-moon').style.display=dark?'none':'flex';
-      btn.querySelector('.icon-sun').style.display=dark?'flex':'none';
-      btn.style.background=dark?'rgba(20,20,32,0.95)':'rgba(246,247,255,0.95)';
-      btn.style.borderColor=dark?'rgba(112,112,255,0.3)':'rgba(64,65,209,0.25)';
-      btn.style.color=dark?'#F0EFFF':'#11081C';
-    }
-    syncIcons();
-    btn.addEventListener('click',function(){
-      root.classList.toggle('dark');
-      localStorage.setItem('theme',root.classList.contains('dark')?'dark':'light');
-      syncIcons();
-    });
-    function positionToggle(){
-      var cta=document.querySelector('.nav-cta');
-      if(cta&&wrap){
-        var r=cta.getBoundingClientRect();
-        wrap.style.top=Math.round(r.top+(r.height-36)/2)+'px';
-        wrap.style.left=Math.round(r.left-48)+'px';
-        wrap.style.right='auto';
-      }
-    }
-    window.addEventListener('load',positionToggle);
-    window.addEventListener('resize',positionToggle);
-    positionToggle();
-  })();
-  </script>
-  <script>
+      <style id="dark-inline-overrides">
+  /* Override any inline white/light backgrounds on html.dark */
+  html.dark [style*="background: rgb(255, 255, 255)"],
+  html.dark [style*="background-color: rgb(255, 255, 255)"],
+  html.dark [style*="background: white"],
+  html.dark [style*="background-color: white"],
+  html.dark [style*="background: #fff"],
+  html.dark [style*="background-color: #fff"],
+  html.dark [style*="background: #ffffff"],
+  html.dark [style*="background-color: #ffffff"] {
+    background-color: #16161F !important;
+  }
+
+  /* Override inline dark text colors (invisible on dark bg) */
+  html.dark [style*="color: rgb(17, 8, 28)"],
+  html.dark [style*="color: rgb(0, 0, 0)"],
+  html.dark [style*="color: #000"],
+  html.dark [style*="color: #11081C"] {
+    color: #B8B8C8 !important;
+  }
+
+  /* Override inline heading colors */
+  html.dark h1[style*="color"],
+  html.dark h2[style*="color"],
+  html.dark h3[style*="color"] {
+    color: #EEEEFF !important;
+  }
+
+  /* Fix ghosted rows — remove any sub-1 opacity in dark mode */
+  html.dark [style*="opacity: 0."] {
+    opacity: 1 !important;
+  }
+</style>
+
+<!-- ===== THEME TOGGLE ===== -->
+<div id="theme-toggle-fixed" style="position:fixed;top:22px;right:190px;z-index:2147483647;display:flex;align-items:center;pointer-events:auto;">
+  <button id="theme-toggle" aria-label="Toggle dark mode" style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(64,65,209,0.25);background:rgba(246,247,255,0.95);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#11081C;padding:0;flex-shrink:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+    <span class="icon-moon" style="display:flex;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </span>
+    <span class="icon-sun" style="display:none;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </span>
+  </button>
+</div>
+<script>
   (function () {
     const root = document.documentElement;
-    const toggleBtn = document.getElementById('theme-toggle');
-    if (!toggleBtn) return;
 
-    // Apply saved preference (if any). If none, let system preference decide via CSS.
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
+    // Light is default. Only go dark if user previously chose it.
+    if (localStorage.getItem('theme') === 'dark') {
       root.classList.add('dark');
-    } else if (saved === 'light') {
-      root.classList.remove('dark');
     }
 
-    toggleBtn.addEventListener('click', () => {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+
+    function syncIcons() {
+      const dark = root.classList.contains('dark');
+      const moon = btn.querySelector('.icon-moon');
+      const sun  = btn.querySelector('.icon-sun');
+      if (moon) moon.style.display = dark ? 'none' : 'flex';
+      if (sun)  sun.style.display  = dark ? 'flex'  : 'none';
+      btn.style.background  = dark ? 'rgba(20,20,32,0.95)'   : 'rgba(246,247,255,0.95)';
+      btn.style.borderColor = dark ? 'rgba(112,112,255,0.3)' : 'rgba(64,65,209,0.25)';
+      btn.style.color       = dark ? '#F0EFFF' : '#11081C';
+    }
+
+    syncIcons();
+
+    btn.addEventListener('click', () => {
       root.classList.toggle('dark');
       localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
     });
   })();
 </script>
 <!-- ===== END THEME TOGGLE ===== -->
-
 </body>
 </html>
