@@ -10873,10 +10873,25 @@
     (function () {
       'use strict';
 
+    
     function initWhiteningSlider() {
-      document.querySelectorAll('.whitening-slider-container').forEach(container => {
-        if (container._sliderActive) return;
-        container._sliderActive = true;
+      document.querySelectorAll('.framer-zvfuxa').forEach(wrapper => {
+        let container = wrapper.querySelector('.whitening-slider-container');
+        if (!container) {
+          wrapper.innerHTML = `
+            <div class="whitening-slider-container">
+                <img src="./images/after.jpg" class="whitening-img whitening-after" alt="After teeth whitening treatment">
+                <img src="./images/before.jpg" class="whitening-img whitening-before" alt="Before teeth whitening treatment">
+                <div class="whitening-handle" aria-label="Drag to compare before and after">
+                    <div class="whitening-handle-icon" aria-hidden="true">◂ ▸</div>
+                </div>
+            </div>`;
+          container = wrapper.querySelector('.whitening-slider-container');
+          wrapper._sliderActive = false;
+        }
+
+        if (wrapper._sliderActive) return;
+        wrapper._sliderActive = true;
 
         const beforeEl = container.querySelector('.whitening-before');
         const handle = container.querySelector('.whitening-handle');
@@ -10913,9 +10928,7 @@
         window.addEventListener('touchend', onEnd);
       });
     }
-
-
-      var TEAM_MAP = {
+var TEAM_MAP = {
         'Dr. Jacob Wilson': 'Dr. Seare', 'Dr. Alissa': 'Dr. Seare',
         'Olivia Martinez': 'Paige Mendez', 'Dr. Olivia Martinez': 'Paige Mendez',
         'Dr. Jason': 'Paige Mendez',
