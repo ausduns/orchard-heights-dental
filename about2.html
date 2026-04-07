@@ -490,6 +490,8 @@ html.dark #theme-toggle {
 
 
 
+
+
 <script id="orchard-nav-override">
 (function() {
   var TARGET_LINKS = [
@@ -502,7 +504,6 @@ html.dark #theme-toggle {
     {text: 'Contact',    href: './contact-us2.html'}
   ];
   var ACTIVE_HREF = './about2.html';
-  // Indices of nodes that were cloned (not React-owned) — track so we can sync classes
   var CLONED_INDICES = [5, 6];
 
   function getNavLinkDivs(navEl) {
@@ -512,12 +513,10 @@ html.dark #theme-toggle {
     return Array.from(container.querySelectorAll(':scope > [data-framer-name="Nav Link"]'));
   }
 
-  // Set text of a nav-link div without disturbing child SVGs/imgs
   function setLinkText(div, text) {
     var anchor = div.querySelector('a[href]');
     if (!anchor) return;
     var updated = false;
-    // Direct text node on anchor
     anchor.childNodes.forEach(function(node) {
       if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
         node.textContent = text;
@@ -525,7 +524,6 @@ html.dark #theme-toggle {
       }
     });
     if (updated) return;
-    // Try inner <p>
     var p = div.querySelector('p, span');
     if (p) {
       p.childNodes.forEach(function(node) {
@@ -537,18 +535,15 @@ html.dark #theme-toggle {
     }
   }
 
-  // Sync class list of all cloned nodes to mirror the reference node (index 4 = last React-owned)
   function syncClonedClasses(linkDivs) {
     if (linkDivs.length < TARGET_LINKS.length) return;
-    var refDiv = linkDivs[4]; // last React-owned node (Membership)
+    var refDiv = linkDivs[4];
     CLONED_INDICES.forEach(function(idx) {
       var cloned = linkDivs[idx];
       if (!cloned || !refDiv) return;
-      // Sync className on the div itself
       if (cloned.className !== refDiv.className) {
         cloned.className = refDiv.className;
       }
-      // Sync className on all inner elements (anchor, p, span…)
       var refChildren = Array.from(refDiv.querySelectorAll('*'));
       var clonedChildren = Array.from(cloned.querySelectorAll('*'));
       refChildren.forEach(function(refChild, i) {
@@ -574,7 +569,7 @@ html.dark #theme-toggle {
       } else {
         div = linkDivs[linkDivs.length - 1].cloneNode(true);
         container.appendChild(div);
-        linkDivs.push(div); // keep array in sync for next iterations
+        linkDivs.push(div);
       }
 
       var anchor = div.querySelector('a[href]');
@@ -588,7 +583,6 @@ html.dark #theme-toggle {
       setLinkText(div, target.text);
     });
 
-    // Remove extras beyond 7
     var fresh = getNavLinkDivs(navEl);
     if (fresh.length > TARGET_LINKS.length) {
       fresh.slice(TARGET_LINKS.length).forEach(function(d) {
@@ -616,6 +610,8 @@ html.dark #theme-toggle {
     ];
   }
 
+  // No hero text patch for this page
+
   var _busy = false;
   var _lastRun = 0;
 
@@ -630,17 +626,15 @@ html.dark #theme-toggle {
         if (!isAlreadyPatched(nav)) {
           mutateNav(nav);
         } else {
-          // Nav is correctly patched — just sync scroll-state classes on clones
           syncClonedClasses(getNavLinkDivs(nav));
         }
       });
+      if (typeof patchHeroText === 'function') patchHeroText();
     } catch(e) { /* silent */ } finally {
       _busy = false;
     }
   }
 
-  // Persistent observer — never disconnects
-  // Watch both childList (hydration re-renders) and attributes (Framer scroll class changes)
   var observer = new MutationObserver(function(mutations) {
     var needsPatch = mutations.some(function(m) {
       return m.type === 'childList' && m.addedNodes.length > 0;
@@ -662,8 +656,8 @@ html.dark #theme-toggle {
     observer.observe(document.documentElement, {
       childList: true,
       subtree: true,
-      attributes: true,           // needed to catch Framer's scroll-class updates
-      attributeFilter: ['class'], // only care about class changes
+      attributes: true,
+      attributeFilter: ['class'],
       characterData: false
     });
     tryPatch();
