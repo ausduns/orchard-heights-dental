@@ -7233,7 +7233,6 @@
       color: #F0EFFF !important;
     }
   </style>
-
 <style id="whitening-slider-styles">
   .whitening-slider-container { 
     position: relative; 
@@ -11104,10 +11103,31 @@
 <script id="whitening-slider-js">
 (function() {
   'use strict';
-  function initWhiteningSlider(container) {
-    if (!container) return;
-    if (container._sliderActive) return;
-    container._sliderActive = true;
+  
+  const sliderHTML = `
+    <div class="whitening-slider-container">
+        <img src="after.jpg" class="whitening-img whitening-after" alt="After teeth whitening treatment">
+        <img src="before.jpg" class="whitening-img whitening-before" alt="Before teeth whitening treatment">
+        <div class="whitening-handle" aria-label="Drag to compare before and after">
+            <div class="whitening-handle-icon" aria-hidden="true">◂ ▸</div>
+        </div>
+    </div>
+  `;
+
+  function initWhiteningSlider(wrapper) {
+    if (!wrapper) return;
+    
+    // Check if slider is missing inside wrapper
+    let container = wrapper.querySelector('.whitening-slider-container');
+    if (!container) {
+       // Inject the HTML into the framer wrapper
+       wrapper.innerHTML = sliderHTML;
+       container = wrapper.querySelector('.whitening-slider-container');
+       wrapper._sliderActive = false; // reset flag
+    }
+
+    if (wrapper._sliderActive) return;
+    wrapper._sliderActive = true;
 
     const beforeEl = container.querySelector('.whitening-before');
     const handle = container.querySelector('.whitening-handle');
@@ -11144,7 +11164,7 @@
   }
 
   window.initAllSliders = function() {
-    document.querySelectorAll('.whitening-slider-container').forEach(initWhiteningSlider);
+    document.querySelectorAll('.framer-zvfuxa').forEach(initWhiteningSlider);
   };
 
   if (document.readyState === 'loading') {
@@ -11154,5 +11174,6 @@
   }
 })();
 </script>
+
 </body>
 </html>
