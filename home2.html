@@ -10806,32 +10806,7 @@
 
     })();
   </script>
-<script id="whitening-slider-js">
-    document.addEventListener('DOMContentLoaded', () => {
-      const containers = document.querySelectorAll('.whitening-slider-container');
-      containers.forEach(container => {
-        const beforeEl = container.querySelector('.whitening-before');
-        const handle = container.querySelector('.whitening-handle');
-        let isDragging = false;
 
-        const updateSlider = (x) => {
-          const rect = container.getBoundingClientRect();
-          let pct = ((x - rect.left) / rect.width) * 100;
-          pct = Math.max(0, Math.min(100, pct));
-          beforeEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
-          handle.style.left = `${pct}%`;
-        };
-
-        container.addEventListener('mousedown', (e) => { isDragging = true; updateSlider(e.clientX); e.preventDefault(); });
-        window.addEventListener('mousemove', (e) => { if (isDragging) updateSlider(e.clientX); });
-        window.addEventListener('mouseup', () => { isDragging = false; });
-
-        container.addEventListener('touchstart', (e) => { isDragging = true; updateSlider(e.touches[0].clientX); }, { passive: true });
-        window.addEventListener('touchmove', (e) => { if (isDragging) { updateSlider(e.touches[0].clientX); e.preventDefault(); } }, { passive: false });
-        window.addEventListener('touchend', () => { isDragging = false; });
-      });
-    });
-  </script>
 <script id="orchard-persistence-v9">
     (function () {
       'use strict';
@@ -11003,6 +10978,94 @@
               }
             }
           }
+
+          
+          // --- Whitening Slider Re-injection ---
+          document.querySelectorAll('.framer-zvfuxa').forEach(function(container) {
+            if (!container.classList.contains('whitening-slider-container')) {
+               container.classList.add('whitening-slider-container');
+               container.style.touchAction = 'none';
+            }
+            if (!container.querySelector('.whitening-before')) {
+              var imageWrapper = container.querySelector('[data-framer-background-image-wrapper="true"]');
+              if (imageWrapper) {
+                var imgNode = imageWrapper.querySelector('img');
+                if (imgNode) {
+                  // Make the before layer
+                  var beforeDiv = document.createElement('div');
+                  beforeDiv.className = 'whitening-before';
+                  beforeDiv.style.position = 'absolute';
+                  beforeDiv.style.top = '0';
+                  beforeDiv.style.left = '0';
+                  beforeDiv.style.width = '100%';
+                  beforeDiv.style.height = '100%';
+                  beforeDiv.style.zIndex = '10';
+                  beforeDiv.style.clipPath = 'inset(0 50% 0 0)';
+                  beforeDiv.style.filter = 'brightness(0.9) sepia(50%) hue-rotate(5deg)';
+                  
+                  var clonedImg = imgNode.cloneNode(true);
+                  clonedImg.style.width = '100%';
+                  clonedImg.style.height = '100%';
+                  clonedImg.style.objectFit = 'cover';
+                  clonedImg.style.filter = 'none';
+                  beforeDiv.appendChild(clonedImg);
+                  
+                  // Make the handle
+                  var handleDiv = document.createElement('div');
+                  handleDiv.className = 'whitening-handle';
+                  handleDiv.style.position = 'absolute';
+                  handleDiv.style.top = '0';
+                  handleDiv.style.bottom = '0';
+                  handleDiv.style.left = '50%';
+                  handleDiv.style.width = '4px';
+                  handleDiv.style.background = 'white';
+                  handleDiv.style.zIndex = '11';
+                  handleDiv.style.transform = 'translateX(-50%)';
+                  handleDiv.style.pointerEvents = 'none';
+                  
+                  var handleIcon = document.createElement('div');
+                  handleIcon.style.position = 'absolute';
+                  handleIcon.style.top = '50%';
+                  handleIcon.style.left = '50%';
+                  handleIcon.style.width = '32px';
+                  handleIcon.style.height = '32px';
+                  handleIcon.style.background = 'white';
+                  handleIcon.style.borderRadius = '50%';
+                  handleIcon.style.transform = 'translate(-50%, -50%)';
+                  handleIcon.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+                  handleIcon.style.display = 'flex';
+                  handleIcon.style.alignItems = 'center';
+                  handleIcon.style.justifyContent = 'center';
+                  handleIcon.style.fontSize = '14px';
+                  handleIcon.style.fontFamily = 'monospace';
+                  handleIcon.style.color = '#444';
+                  handleIcon.textContent = '◂ ▸';
+                  handleDiv.appendChild(handleIcon);
+                  
+                  container.appendChild(beforeDiv);
+                  container.appendChild(handleDiv);
+                  
+                  // Bind events
+                  var isDragging = false;
+                  var updateSlider = function(x) {
+                    var rect = container.getBoundingClientRect();
+                    var pct = ((x - rect.left) / rect.width) * 100;
+                    pct = Math.max(0, Math.min(100, pct));
+                    beforeDiv.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+                    handleDiv.style.left = pct + '%';
+                  };
+                  
+                  container.addEventListener('mousedown', function(e) { isDragging = true; updateSlider(e.clientX); e.preventDefault(); });
+                  window.addEventListener('mousemove', function(e) { if (isDragging) updateSlider(e.clientX); });
+                  window.addEventListener('mouseup', function() { isDragging = false; });
+                  
+                  container.addEventListener('touchstart', function(e) { isDragging = true; updateSlider(e.touches[0].clientX); e.preventDefault(); }, { passive: false });
+                  window.addEventListener('touchmove', function(e) { if (isDragging) { updateSlider(e.touches[0].clientX); e.preventDefault(); } }, { passive: false });
+                  window.addEventListener('touchend', function() { isDragging = false; });
+                }
+              }
+            }
+          });
 
           // Raw text node walker for known late-revert strings
           var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
