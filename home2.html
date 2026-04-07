@@ -10873,6 +10873,48 @@
     (function () {
       'use strict';
 
+    function initWhiteningSlider() {
+      document.querySelectorAll('.whitening-slider-container').forEach(container => {
+        if (container._sliderActive) return;
+        container._sliderActive = true;
+
+        const beforeEl = container.querySelector('.whitening-before');
+        const handle = container.querySelector('.whitening-handle');
+        if (!beforeEl || !handle) return;
+
+        let isDragging = false;
+
+        const updatePosition = (clientX) => {
+          const rect = container.getBoundingClientRect();
+          let percent = (clientX - rect.left) / rect.width * 100;
+          percent = Math.min(100, Math.max(0, percent));
+          beforeEl.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+          handle.style.left = `${percent}%`;
+        };
+
+        const onStart = (e) => {
+          isDragging = true;
+          const clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+          updatePosition(clientX);
+        };
+        const onMove = (e) => {
+          if (!isDragging) return;
+          const clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+          updatePosition(clientX);
+          if (e.type === 'touchmove') e.preventDefault();
+        };
+        const onEnd = () => { isDragging = false; };
+
+        container.addEventListener('mousedown', onStart);
+        container.addEventListener('touchstart', onStart, { passive: true });
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('mouseup', onEnd);
+        window.addEventListener('touchend', onEnd);
+      });
+    }
+
+
       var TEAM_MAP = {
         'Dr. Jacob Wilson': 'Dr. Seare', 'Dr. Alissa': 'Dr. Seare',
         'Olivia Martinez': 'Paige Mendez', 'Dr. Olivia Martinez': 'Paige Mendez',
@@ -11061,7 +11103,7 @@
 
       function schedulePatch() {
         clearTimeout(patchTimer);
-          if (window.initAllSliders) window.initAllSliders();
+          initWhiteningSlider();
         patchTimer = setTimeout(runPatch, 80);
       }
 
@@ -11099,81 +11141,5 @@
       }
     })();
   </script>
-
-<script id="whitening-slider-js">
-(function() {
-  'use strict';
-  
-  const sliderHTML = `
-    <div class="whitening-slider-container">
-        <img src="after.jpg" class="whitening-img whitening-after" alt="After teeth whitening treatment">
-        <img src="before.jpg" class="whitening-img whitening-before" alt="Before teeth whitening treatment">
-        <div class="whitening-handle" aria-label="Drag to compare before and after">
-            <div class="whitening-handle-icon" aria-hidden="true">◂ ▸</div>
-        </div>
-    </div>
-  `;
-
-  function initWhiteningSlider(wrapper) {
-    if (!wrapper) return;
-    
-    // Check if slider is missing inside wrapper
-    let container = wrapper.querySelector('.whitening-slider-container');
-    if (!container) {
-       // Inject the HTML into the framer wrapper
-       wrapper.innerHTML = sliderHTML;
-       container = wrapper.querySelector('.whitening-slider-container');
-       wrapper._sliderActive = false; // reset flag
-    }
-
-    if (wrapper._sliderActive) return;
-    wrapper._sliderActive = true;
-
-    const beforeEl = container.querySelector('.whitening-before');
-    const handle = container.querySelector('.whitening-handle');
-    if (!beforeEl || !handle) return;
-
-    let isDragging = false;
-    const updatePosition = (clientX) => {
-      const rect = container.getBoundingClientRect();
-      let percent = (clientX - rect.left) / rect.width * 100;
-      percent = Math.max(0, Math.min(100, percent));
-      beforeEl.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
-      handle.style.left = `${percent}%`;
-    };
-
-    const onStart = (e) => {
-      isDragging = true;
-      const clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
-      updatePosition(clientX);
-    };
-    const onMove = (e) => {
-      if (!isDragging) return;
-      const clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
-      updatePosition(clientX);
-      if (e.type === 'touchmove') e.preventDefault();
-    };
-    const onEnd = () => { isDragging = false; };
-
-    container.addEventListener('mousedown', onStart);
-    container.addEventListener('touchstart', onStart, { passive: true });
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('touchmove', onMove, { passive: false });
-    window.addEventListener('mouseup', onEnd);
-    window.addEventListener('touchend', onEnd);
-  }
-
-  window.initAllSliders = function() {
-    document.querySelectorAll('.framer-zvfuxa').forEach(initWhiteningSlider);
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', window.initAllSliders);
-  } else {
-    window.initAllSliders();
-  }
-})();
-</script>
-
 </body>
 </html>
