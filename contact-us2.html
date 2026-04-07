@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us — Dental</title>
+  <title>Orchard Heights Dental — West Salem, OR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -528,8 +528,8 @@ html.dark #theme-toggle {
           <li><a href="./home2.html">Home</a></li>
           <li><a href="./about2.html">About Us</a></li>
           <li><a href="./services2.html">Services</a></li>
-          <li><a href="./dentists2.html">Dentists</a></li>
-          <li><a href="./pricing2.html">Pricing</a></li>
+          <li><a href="./dentists2.html">Team</a></li>
+          <li><a href="./pricing2.html">Membership</a></li>
           <li><a href="./careers2.html">Careers</a></li>
         </ul>
       </div>
@@ -554,7 +554,7 @@ html.dark #theme-toggle {
       </div>
     </div>
     <div class="footer-bottom">
-      <span>Dental® All rights reserved. Designed by fourtwelve</span>
+      <span>Orchard Heights Dental® All rights reserved. Designed by fourtwelve</span>
       <div class="footer-links">
         <a href="#">Privacy Policy</a>
         <a href="#">Terms of Service</a>
@@ -650,5 +650,134 @@ html.dark #theme-toggle {
   })();
 </script>
 <!-- ===== END THEME TOGGLE ===== -->
+
+
+
+<script id="orchard-nav-override">
+(function() {
+  var NAV_LINKS = [["Home", "./home2.html"], ["About", "./about2.html"], ["Services", "./services2.html"], ["Team", "./dentists2.html"], ["Membership", "./pricing2.html"], ["Careers", "./careers2.html"], ["Contact", "./contact-us2.html"]];
+  var ACTIVE_HREF = "./contact-us2.html";
+
+  function rewriteNav(navEl) {
+    // Find nav link anchors
+    var anchors = Array.from(navEl.querySelectorAll('[data-framer-name="Nav Link"] a, [data-framer-name="Nav Link"] a.framer-text'));
+    if (anchors.length === 0) {
+      // Try another way: direct a[href] inside the nav
+      anchors = Array.from(navEl.querySelectorAll('a[class*="framer-text"]'));
+    }
+    if (anchors.length === 0) return false;
+
+    // Get the parent container to be able to add/remove nodes
+    var firstNavDiv = anchors[0].closest('[data-framer-name="Nav Link"]');
+    if (!firstNavDiv) return false;
+    var container = firstNavDiv.parentElement;
+    if (!container) return false;
+
+    var navDivs = Array.from(container.querySelectorAll('[data-framer-name="Nav Link"]'));
+    if (navDivs.length === 0) return false;
+
+    // Check if already correctly set
+    var firstAnchor = navDivs[0] && navDivs[0].querySelector('a');
+    if (firstAnchor && firstAnchor.textContent.trim() === NAV_LINKS[0][0] && firstAnchor.getAttribute('href') === NAV_LINKS[0][1]) {
+      if (navDivs.length === NAV_LINKS.length) return true; // already correct
+    }
+
+    // Clone approach: use first nav link div as template for new ones
+    var templateDiv = navDivs[0].cloneNode(true);
+
+    // Remove all existing nav link divs from container
+    navDivs.forEach(function(d) { d.parentNode && d.parentNode.removeChild(d); });
+
+    // Find what will be the insert point (right before whatever follows nav link divs)
+    // We'll use insertBefore(container.firstChild) approach — append to container
+    NAV_LINKS.forEach(function(item, idx) {
+      var label = item[0], href = item[1];
+      var isCurrent = (href === ACTIVE_HREF);
+      var newDiv = templateDiv.cloneNode(true);
+      var anchor = newDiv.querySelector('a');
+      if (!anchor) {
+        // Fallback: create minimal structure
+        anchor = document.createElement('a');
+        anchor.className = 'framer-text framer-styles-preset-gtsveb';
+        newDiv.appendChild(anchor);
+      }
+      anchor.href = href;
+      anchor.textContent = label;
+      if (isCurrent) {
+        anchor.setAttribute('data-framer-page-link-current', 'true');
+      } else {
+        anchor.removeAttribute('data-framer-page-link-current');
+      }
+      container.appendChild(newDiv);
+    });
+    return true;
+  }
+
+  var _busy = false;
+  var _lastCheck = 0;
+
+  function tryApply() {
+    if (_busy) return;
+    var now = Date.now();
+    if (now - _lastCheck < 200) return; // debounce
+    _lastCheck = now;
+    _busy = true;
+
+    try {
+      // Header navs (framer-13or8f)
+      var headerNavs = document.querySelectorAll('.framer-13or8f[data-framer-name]');
+      // Footer navs (framer-1hnua3w)
+      var footerNavs = document.querySelectorAll('.framer-1hnua3w[data-framer-name]');
+
+      headerNavs.forEach(function(nav) { rewriteNav(nav); });
+      footerNavs.forEach(function(nav) { rewriteNav(nav); });
+    } finally {
+      _busy = false;
+    }
+  }
+
+  // Persistent MutationObserver on body (does NOT disconnect after first match)
+  var observer = new MutationObserver(function() {
+    setTimeout(tryApply, 50);
+  });
+
+  function startObserving() {
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: false,
+      characterData: false
+    });
+  }
+
+  // Start immediately
+  if (document.readyState !== 'loading') {
+    startObserving();
+    tryApply();
+  } else {
+    document.addEventListener('DOMContentLoaded', function() {
+      startObserving();
+      tryApply();
+    });
+  }
+
+  // Also run after full page load (images etc.) to catch late Framer hydration
+  window.addEventListener('load', function() {
+    setTimeout(tryApply, 100);
+    setTimeout(tryApply, 500);
+    setTimeout(tryApply, 1000);
+    setTimeout(tryApply, 2000);
+  });
+
+  // Fallback polling for the first 10 seconds
+  var pollCount = 0;
+  var poller = setInterval(function() {
+    tryApply();
+    pollCount++;
+    if (pollCount > 20) clearInterval(poller); // stop after 10s
+  }, 500);
+})();
+</script>
+
 </body>
 </html>
