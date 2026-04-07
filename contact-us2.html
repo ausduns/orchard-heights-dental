@@ -659,6 +659,8 @@ html.dark #theme-toggle {
 
 
 
+
+
 <script id="orchard-nav-override">
 (function() {
   var TARGET_LINKS = [
@@ -722,7 +724,33 @@ html.dark #theme-toggle {
     });
   }
 
+  // --- Purge Logic for 'All Pages' ---
+  function purgeAllPages(navEl) {
+    var all = Array.from(navEl.querySelectorAll('[data-framer-name="Nav Link"]'));
+    if (all.length === 0) return;
+    var container = all[0].parentElement;
+    
+    Array.from(container.children).forEach(function(child) {
+      var text = child.textContent.trim().toUpperCase();
+      if (text.indexOf('ALL PAGES') !== -1) {
+        child.style.setProperty('display', 'none', 'important');
+      }
+    });
+
+    var allTextEls = Array.from(navEl.querySelectorAll('p, span, .framer-text'));
+    allTextEls.forEach(function(el) {
+      if (el.textContent.trim().toUpperCase() === 'ALL PAGES') {
+        var target = el.closest('a') || el.closest('[data-framer-component-type="Dropdown"]') || el;
+        if (target !== navEl && !target.classList.contains('framer-13or8f') && !target.classList.contains('framer-1hnua3w')) {
+          target.style.setProperty('display', 'none', 'important');
+        }
+      }
+    });
+  }
+
   function mutateNav(navEl) {
+    purgeAllPages(navEl);
+
     var linkDivs = getNavLinkDivs(navEl);
     if (linkDivs.length === 0) return false;
     var container = linkDivs[0].parentElement;
@@ -761,6 +789,7 @@ html.dark #theme-toggle {
   }
 
   function isAlreadyPatched(navEl) {
+    purgeAllPages(navEl);
     var divs = getNavLinkDivs(navEl);
     if (divs.length !== TARGET_LINKS.length) return false;
     for (var i = 0; i < TARGET_LINKS.length; i++) {
