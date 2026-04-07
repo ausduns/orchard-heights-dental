@@ -486,129 +486,207 @@ html.dark #theme-toggle {
 
 
 
+
+
+
+
 <script id="orchard-nav-override">
 (function() {
-  var NAV_LINKS = [["Home", "./home2.html"], ["About", "./about2.html"], ["Services", "./services2.html"], ["Team", "./dentists2.html"], ["Membership", "./pricing2.html"], ["Careers", "./careers2.html"], ["Contact", "./contact-us2.html"]];
-  var ACTIVE_HREF = "./pricing2.html";
+  var TARGET_LINKS = [
+    {text: 'Home',       href: './home2.html'},
+    {text: 'About',      href: './about2.html'},
+    {text: 'Services',   href: './services2.html'},
+    {text: 'Team',       href: './dentists2.html'},
+    {text: 'Membership', href: './pricing2.html'},
+    {text: 'Careers',    href: './careers2.html'},
+    {text: 'Contact',    href: './contact-us2.html'}
+  ];
+  var ACTIVE_HREF = './pricing2.html';
+  // Indices of nodes that were cloned (not React-owned) — track so we can sync classes
+  var CLONED_INDICES = [5, 6];
 
-  function rewriteNav(navEl) {
-    // Find nav link anchors
-    var anchors = Array.from(navEl.querySelectorAll('[data-framer-name="Nav Link"] a, [data-framer-name="Nav Link"] a.framer-text'));
-    if (anchors.length === 0) {
-      // Try another way: direct a[href] inside the nav
-      anchors = Array.from(navEl.querySelectorAll('a[class*="framer-text"]'));
-    }
-    if (anchors.length === 0) return false;
+  function getNavLinkDivs(navEl) {
+    var all = Array.from(navEl.querySelectorAll('[data-framer-name="Nav Link"]'));
+    if (all.length === 0) return [];
+    var container = all[0].parentElement;
+    return Array.from(container.querySelectorAll(':scope > [data-framer-name="Nav Link"]'));
+  }
 
-    // Get the parent container to be able to add/remove nodes
-    var firstNavDiv = anchors[0].closest('[data-framer-name="Nav Link"]');
-    if (!firstNavDiv) return false;
-    var container = firstNavDiv.parentElement;
-    if (!container) return false;
-
-    var navDivs = Array.from(container.querySelectorAll('[data-framer-name="Nav Link"]'));
-    if (navDivs.length === 0) return false;
-
-    // Check if already correctly set
-    var firstAnchor = navDivs[0] && navDivs[0].querySelector('a');
-    if (firstAnchor && firstAnchor.textContent.trim() === NAV_LINKS[0][0] && firstAnchor.getAttribute('href') === NAV_LINKS[0][1]) {
-      if (navDivs.length === NAV_LINKS.length) return true; // already correct
-    }
-
-    // Clone approach: use first nav link div as template for new ones
-    var templateDiv = navDivs[0].cloneNode(true);
-
-    // Remove all existing nav link divs from container
-    navDivs.forEach(function(d) { d.parentNode && d.parentNode.removeChild(d); });
-
-    // Find what will be the insert point (right before whatever follows nav link divs)
-    // We'll use insertBefore(container.firstChild) approach — append to container
-    NAV_LINKS.forEach(function(item, idx) {
-      var label = item[0], href = item[1];
-      var isCurrent = (href === ACTIVE_HREF);
-      var newDiv = templateDiv.cloneNode(true);
-      var anchor = newDiv.querySelector('a');
-      if (!anchor) {
-        // Fallback: create minimal structure
-        anchor = document.createElement('a');
-        anchor.className = 'framer-text framer-styles-preset-gtsveb';
-        newDiv.appendChild(anchor);
+  // Set text of a nav-link div without disturbing child SVGs/imgs
+  function setLinkText(div, text) {
+    var anchor = div.querySelector('a[href]');
+    if (!anchor) return;
+    var updated = false;
+    // Direct text node on anchor
+    anchor.childNodes.forEach(function(node) {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+        node.textContent = text;
+        updated = true;
       }
-      anchor.href = href;
-      anchor.textContent = label;
+    });
+    if (updated) return;
+    // Try inner <p>
+    var p = div.querySelector('p, span');
+    if (p) {
+      p.childNodes.forEach(function(node) {
+        if (node.nodeType === Node.TEXT_NODE) { node.textContent = text; updated = true; }
+      });
+    }
+    if (!updated && !anchor.querySelector('svg, img')) {
+      anchor.textContent = text;
+    }
+  }
+
+  // Sync class list of all cloned nodes to mirror the reference node (index 4 = last React-owned)
+  function syncClonedClasses(linkDivs) {
+    if (linkDivs.length < TARGET_LINKS.length) return;
+    var refDiv = linkDivs[4]; // last React-owned node (Membership)
+    CLONED_INDICES.forEach(function(idx) {
+      var cloned = linkDivs[idx];
+      if (!cloned || !refDiv) return;
+      // Sync className on the div itself
+      if (cloned.className !== refDiv.className) {
+        cloned.className = refDiv.className;
+      }
+      // Sync className on all inner elements (anchor, p, span…)
+      var refChildren = Array.from(refDiv.querySelectorAll('*'));
+      var clonedChildren = Array.from(cloned.querySelectorAll('*'));
+      refChildren.forEach(function(refChild, i) {
+        var clonedChild = clonedChildren[i];
+        if (clonedChild && clonedChild.className !== refChild.className) {
+          clonedChild.className = refChild.className;
+        }
+      });
+    });
+  }
+
+  function mutateNav(navEl) {
+    var linkDivs = getNavLinkDivs(navEl);
+    if (linkDivs.length === 0) return false;
+    var container = linkDivs[0].parentElement;
+
+    TARGET_LINKS.forEach(function(target, idx) {
+      var isCurrent = (target.href === ACTIVE_HREF);
+      var div;
+
+      if (idx < linkDivs.length) {
+        div = linkDivs[idx];
+      } else {
+        div = linkDivs[linkDivs.length - 1].cloneNode(true);
+        container.appendChild(div);
+        linkDivs.push(div); // keep array in sync for next iterations
+      }
+
+      var anchor = div.querySelector('a[href]');
+      if (!anchor) return;
+      anchor.setAttribute('href', target.href);
       if (isCurrent) {
         anchor.setAttribute('data-framer-page-link-current', 'true');
       } else {
         anchor.removeAttribute('data-framer-page-link-current');
       }
-      container.appendChild(newDiv);
+      setLinkText(div, target.text);
     });
+
+    // Remove extras beyond 7
+    var fresh = getNavLinkDivs(navEl);
+    if (fresh.length > TARGET_LINKS.length) {
+      fresh.slice(TARGET_LINKS.length).forEach(function(d) {
+        d.parentNode && d.parentNode.removeChild(d);
+      });
+    }
+
     return true;
   }
 
-  var _busy = false;
-  var _lastCheck = 0;
+  function isAlreadyPatched(navEl) {
+    var divs = getNavLinkDivs(navEl);
+    if (divs.length !== TARGET_LINKS.length) return false;
+    for (var i = 0; i < TARGET_LINKS.length; i++) {
+      var a = divs[i].querySelector('a[href]');
+      if (!a || a.getAttribute('href') !== TARGET_LINKS[i].href) return false;
+    }
+    return true;
+  }
 
-  function tryApply() {
+  function allNavWrappers() {
+    return [
+      ...Array.from(document.querySelectorAll('.framer-13or8f[data-framer-name]')),
+      ...Array.from(document.querySelectorAll('.framer-1hnua3w[data-framer-name]'))
+    ];
+  }
+
+  var _busy = false;
+  var _lastRun = 0;
+
+  function tryPatch() {
     if (_busy) return;
     var now = Date.now();
-    if (now - _lastCheck < 200) return; // debounce
-    _lastCheck = now;
+    if (now - _lastRun < 150) return;
+    _lastRun = now;
     _busy = true;
-
     try {
-      // Header navs (framer-13or8f)
-      var headerNavs = document.querySelectorAll('.framer-13or8f[data-framer-name]');
-      // Footer navs (framer-1hnua3w)
-      var footerNavs = document.querySelectorAll('.framer-1hnua3w[data-framer-name]');
-
-      headerNavs.forEach(function(nav) { rewriteNav(nav); });
-      footerNavs.forEach(function(nav) { rewriteNav(nav); });
-    } finally {
+      allNavWrappers().forEach(function(nav) {
+        if (!isAlreadyPatched(nav)) {
+          mutateNav(nav);
+        } else {
+          // Nav is correctly patched — just sync scroll-state classes on clones
+          syncClonedClasses(getNavLinkDivs(nav));
+        }
+      });
+    } catch(e) { /* silent */ } finally {
       _busy = false;
     }
   }
 
-  // Persistent MutationObserver on body (does NOT disconnect after first match)
-  var observer = new MutationObserver(function() {
-    setTimeout(tryApply, 50);
+  // Persistent observer — never disconnects
+  // Watch both childList (hydration re-renders) and attributes (Framer scroll class changes)
+  var observer = new MutationObserver(function(mutations) {
+    var needsPatch = mutations.some(function(m) {
+      return m.type === 'childList' && m.addedNodes.length > 0;
+    });
+    var needsSync = mutations.some(function(m) {
+      return m.type === 'attributes' && m.attributeName === 'class';
+    });
+    if (needsPatch) setTimeout(tryPatch, 60);
+    else if (needsSync) setTimeout(function() {
+      try {
+        allNavWrappers().forEach(function(nav) {
+          syncClonedClasses(getNavLinkDivs(nav));
+        });
+      } catch(e) {}
+    }, 0);
   });
 
-  function startObserving() {
+  function boot() {
     observer.observe(document.documentElement, {
       childList: true,
       subtree: true,
-      attributes: false,
+      attributes: true,           // needed to catch Framer's scroll-class updates
+      attributeFilter: ['class'], // only care about class changes
       characterData: false
     });
+    tryPatch();
   }
 
-  // Start immediately
-  if (document.readyState !== 'loading') {
-    startObserving();
-    tryApply();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
   } else {
-    document.addEventListener('DOMContentLoaded', function() {
-      startObserving();
-      tryApply();
-    });
+    boot();
   }
 
-  // Also run after full page load (images etc.) to catch late Framer hydration
   window.addEventListener('load', function() {
-    setTimeout(tryApply, 100);
-    setTimeout(tryApply, 500);
-    setTimeout(tryApply, 1000);
-    setTimeout(tryApply, 2000);
+    setTimeout(tryPatch, 200);
+    setTimeout(tryPatch, 800);
+    setTimeout(tryPatch, 2000);
   });
 
-  // Fallback polling for the first 10 seconds
-  var pollCount = 0;
-  var poller = setInterval(function() {
-    tryApply();
-    pollCount++;
-    if (pollCount > 20) clearInterval(poller); // stop after 10s
+  var ticks = 0;
+  var poll = setInterval(function() {
+    tryPatch();
+    if (++ticks >= 20) clearInterval(poll);
   }, 500);
+
 })();
 </script>
 
