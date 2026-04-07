@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us — Orchard Heights Dental</title>
+  <title>Contact Us — Dental</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --primary:#3741A2;--primary-hover:#2c3488;
-      --bg:#F6F6F7;--surface:#FFFFFF;--text:#222222;--muted:#6B6B80;
+      --primary:#4041D1;--primary-hover:#3233b0;
+      --bg:#F6F7FF;--surface:#FFFFFF;--text:#11081C;--muted:#6B6B80;
       --border:rgba(64,65,209,0.14);--shadow:0 4px 24px rgba(64,65,209,0.10);
       --radius:20px;--radius-btn:60px;
     }
@@ -392,20 +392,6 @@ html.dark #theme-toggle {
   color: #F0EFFF !important;
 }
 </style>
-<link rel="icon" type="image/png" href="assets/images/orchard-heights-dental-site-icon.png">
-<style id="brand-color-overrides">
-  /* Orchard Heights Dental — brand token overrides */
-  :root, body {
-    --token-4cc2a019-273b-4c12-ad15-cec2b68c0578: #FFFFFF;
-    --token-d253d752-8bed-4cd5-9acc-17a570f2985a: #F6F6F7;
-    --token-07e322cc-a6fb-4efe-94f9-2b52a3205099: #3741A2;
-    --token-31c5f73c-6f68-4d23-870d-1386964c8868: #222222;
-    --token-124ae222-4248-4766-b583-3b63ea5769fe: #66696B;
-    --token-cf5d764c-21f4-4622-864e-5c2b8a640b05: #DAEDFF;
-    --token-44aee6d5-af9f-4971-af62-7eca14990eea: #A5A8AE;
-    --token-db6394db-2c02-4900-9386-98262f05bffc: #DFE1E4;
-  }
-</style>
 </head>
 <body>
 
@@ -413,8 +399,8 @@ html.dark #theme-toggle {
   <div style="position:fixed;top:0;left:0;right:0;z-index:100;">
     <div class="nav-wrap">
       <a href="./home2.html" class="nav-logo">
-        <img src="#" alt="Dental">
-        <span>Orchard Heights Dental</span>
+        <img src="https://framerusercontent.com/images/NafeJntPk9Cf7IEgmwlyEySfeRk.svg" alt="Dental">
+        <span>Dental</span>
       </a>
       <nav class="nav-links">
         <a href="./home2.html">Home</a>
@@ -424,7 +410,7 @@ html.dark #theme-toggle {
         <a href="./pricing2.html">Pricing</a>
         <button>All Pages <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></button>
       </nav>
-            <a href="./contact-us2.html" class="nav-cta">Schedule an Appointment</a>
+            <a href="./contact-us2.html" class="nav-cta">Schedule a Visit</a>
     </div>
   </div>
 
@@ -432,8 +418,8 @@ html.dark #theme-toggle {
 
     <div class="contact-header">
       <span class="eyebrow">Get in touch</span>
-      <h1>Let’s get you scheduled<br>with the right care.</h1>
-      <p>Fill out the form below and we’ll get back to you within one business day to confirm your appointment.</p>
+      <h1>We'd love to<br>hear from you.</h1>
+      <p>Whether you have a question, want to book an appointment, or just want to say hello — we'll get back to you quickly.</p>
     </div>
 
     <section class="contact-section">
@@ -441,57 +427,43 @@ html.dark #theme-toggle {
       <!-- Form -->
       <div class="form-card">
         <h2>Send us a message</h2>
-        <form id="appointment-form" onsubmit="return handleSubmit(event)">
-          <div class="form-group">
-            <label>Treatment <span style="color:#3741A2">*</span></label>
-            <select required>
-              <option value="">Select a treatment...</option>
-              <option>Crowns &amp; Bridges</option>
-              <option>Dental Implants</option>
-              <option>Gum Disease Treatment</option>
-              <option>Hygiene Treatments</option>
-              <option>Invisalign</option>
-              <option>Porcelain Veneers</option>
-              <option>Root Canals</option>
-              <option>Teeth Whitening</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Doctor</label>
-            <select>
-              <option>Dr. Joseph Seare, DMD</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Your Name <span style="color:#3741A2">*</span></label>
-            <input type="text" placeholder="Full name" required>
-          </div>
-          <div class="form-group">
-            <label>Your Phone</label>
-            <input type="tel" placeholder="(503) 000-0000">
-          </div>
+        <form>
           <div class="form-row">
-            <div class="form-group" style="margin-bottom:0">
-              <label>Preferred Date</label>
-              <input type="date">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="John">
             </div>
-            <div class="form-group" style="margin-bottom:0">
-              <label>Preferred Time</label>
-              <input type="time" min="08:00" max="17:00">
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Doe">
             </div>
           </div>
-          <button type="submit" class="btn-submit" style="margin-top:22px">Request Appointment</button>
-          <p id="form-success" style="display:none;margin-top:16px;padding:14px;background:rgba(55,65,162,0.08);border-radius:10px;color:#3741A2;font-size:14px;text-align:center;">Thank you for contacting us, we will be in touch shortly.</p>
-          <p style="font-size:12px;color:#A5A8AE;margin-top:14px;line-height:1.5;">*We do not currently accept Oregon Health Plan (OHP). Please call us to discuss insurance and payment options.</p>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="john@example.com">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="(503) 370-8787">
+          </div>
+          <div class="form-group">
+            <label>Service of Interest</label>
+            <select>
+              <option value="">Select a service...</option>
+              <option>Preventive Care</option>
+              <option>Oral Surgery</option>
+              <option>Emergency Care</option>
+              <option>Orthodontics</option>
+              <option>Cosmetic Dentistry</option>
+              <option>Dental Repair</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>How can we help?</label>
+            <textarea placeholder="Tell us more about your needs..."></textarea>
+          </div>
+          <button type="button" class="btn-submit">Send message</button>
         </form>
-        <script>
-          function handleSubmit(e) {
-            e.preventDefault();
-            document.getElementById('form-success').style.display = 'block';
-            e.target.reset();
-            return false;
-          }
-        </script>
       </div>
 
       <!-- Info -->
@@ -508,22 +480,22 @@ html.dark #theme-toggle {
             <div class="icon-wrap">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
-            <div class="info-row-text"><span>Email</span><a href="mailto:info@orchardheightsdental.com">info@orchardheightsdental.com</a></div>
+            <div class="info-row-text"><span>Email</span><a href="mailto:hello@dental.com">hello@dental.com</a></div>
           </div>
           <div class="info-row">
             <div class="icon-wrap">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
-            <div class="info-row-text"><span>Address</span><p>675 Orchard Heights Rd NW, Suite 100, Salem, OR 97304</p></div>
+            <div class="info-row-text"><span>Address</span><p>123 Dental Way, Salem, OR 97301</p></div>
           </div>
         </div>
 
         <div class="info-block">
           <h3>Opening Hours</h3>
           <table class="hours-table">
-            <tr><td>Mon – Thu</td><td>8:00 AM – 5:00 PM</td></tr>
-            
-            <tr><td>Fri – Sun</td><td>Closed</td></tr>
+            <tr><td>Mon – Fri</td><td>8:00 AM – 6:00 PM</td></tr>
+            <tr><td>Saturday</td><td>9:00 AM – 2:00 PM</td></tr>
+            <tr><td>Sunday</td><td>Closed</td></tr>
           </table>
         </div>
 
@@ -536,27 +508,18 @@ html.dark #theme-toggle {
   </div>
 
   <!-- FOOTER -->
-  
-<!-- Google Maps -->
-<div style="max-width:1200px;margin:-20px auto 0;padding:0 50px 60px;">
-  <iframe
-    src="https://maps.google.com/maps?q=675+Orchard+Heights+Rd+NW,+Salem,+OR+97304&output=embed"
-    width="100%" height="400" style="border:0;border-radius:16px;display:block;"
-    allowfullscreen loading="lazy" title="Orchard Heights Dental location">
-  </iframe>
-</div>
-<footer>
+  <footer>
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="./home2.html" class="footer-logo">
-          <img src="#" alt="Dental">
-          <span>Orchard Heights Dental</span>
+          <img src="https://framerusercontent.com/images/NafeJntPk9Cf7IEgmwlyEySfeRk.svg" alt="Dental">
+          <span>Dental</span>
         </a>
-        <p>Orchard Heights Dental is a family dental practice dedicated to exceptional care in West Salem, Oregon.</p>
+        <p>Dental is a modern practice dedicated to exceptional care in a welcoming environment.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
           <a href="#" aria-label="Telegram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></a>
-          <a href="mailto:info@orchardheightsdental.com" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          <a href="mailto:hello@dental.com" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
         </div>
       </div>
       <div class="footer-col">
@@ -584,14 +547,14 @@ html.dark #theme-toggle {
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>
-          <li><span class="footer-label">Email</span><a href="mailto:info@orchardheightsdental.com">info@orchardheightsdental.com</a></li>
+          <li><span class="footer-label">Email</span><a href="mailto:hello@dental.com">hello@dental.com</a></li>
           <li><span class="footer-label">Phone</span><a href="tel:5033708787">(503) 370-8787</a></li>
-          <li><span class="footer-label">Address</span><span style="font-size:14px;color:rgba(255,255,255,0.62);">675 Orchard Heights Rd NW, Suite 100, Salem, OR 97304</span></li>
+          <li><span class="footer-label">Address</span><span style="font-size:14px;color:rgba(255,255,255,0.62);">123 Dental Way, Salem, OR 97301</span></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>Orchard Heights Orchard Heights Dental® All rights reserved.</span>
+      <span>Dental® All rights reserved. Designed by fourtwelve</span>
       <div class="footer-links">
         <a href="#">Privacy Policy</a>
         <a href="#">Terms of Service</a>
